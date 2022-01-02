@@ -4,14 +4,17 @@
     {
         public void Pre()
         {
-            System.Diagnostics.Debug.WriteLine("Starting");
-            Console.Out.WriteLine(new DateTime().ToLongDateString());
+            Print("Starting");
         }
 
         public void Pos()
         {
-            System.Diagnostics.Debug.WriteLine("Finishing");
-            Console.Out.WriteLine(new DateTime().ToLongDateString());
+            Print("Finishing");
+        }
+
+        private static void Print(string @string)
+        {
+            System.Diagnostics.Debug.WriteLine(@string);
         }
     }
 }

@@ -13,10 +13,10 @@ namespace TheInterceptor
         public void Initialize(GeneratorInitializationContext context)
         {
 #if DEBUG
-            if (!Debugger.IsAttached)
-            {
-                Debugger.Launch();
-            }
+            //if (!Debugger.IsAttached)
+            //{
+            //    Debugger.Launch();
+            //}
 #endif
         }
 
