@@ -8,7 +8,7 @@ using System.Linq;
 namespace TheInterceptor
 {
     [Generator]
-    public class InterceptorGenerator : ISourceGenerator
+    public class InterceptedGenerator : ISourceGenerator
     {
         public void Initialize(GeneratorInitializationContext context)
         {
@@ -27,12 +27,10 @@ namespace TheInterceptor
 
             foreach (var (@interface, @class) in registrations)
             {
-                var interceptorName = $"{@class.Type.Name}Interceptor";
+                var interceptorName = $"{@class.Type.Name}Intercepted";
                 var builtClass = BuildClass(interceptorName, @interface, @class);
                 context.AddSource($"{interceptorName}.cs", builtClass);
             }
-
-            //var handlers = syntaxTrees.
         }
 
         private static string BuildClass(string interceptorName, TypeInfo @interface, TypeInfo @class)
@@ -45,12 +43,10 @@ namespace TheInterceptor
             var methods = @interface.Type.GetMembers().OfType<IMethodSymbol>();
 
             var methodsString = BuildMethodsString(methods);
-            var usings = BuildUsings(interfaceNamespace.Name, classNamespace.Name);
+            var usings = BuildUsings(interfaceNamespace.Name, classNamespace.Name, methods);
 
             return $@"
 {usings}
-
-
 
 public class {interceptorName} : {interfaceName} {{ 
     private readonly {className} _service;
@@ -64,21 +60,24 @@ public class {interceptorName} : {interfaceName} {{
 }}";
         }
 
-        private static string BuildUsings(string interfaceName, string className)
+        private static string BuildUsings(string interfaceNamespace, string classNamespace, IEnumerable<IMethodSymbol> methods)
         {
-            var usings = FormatUsing(interfaceName);
-
-            if (interfaceName != className)
+            List<string> namespaces = new List<string>()
             {
-                usings += FormatUsing(className);
+                interfaceNamespace,
+                classNamespace,
+            };
+
+
+            foreach (var method in methods)
+            {
+                foreach (var parameter in method.Parameters)
+                {
+                    namespaces.Add(parameter.ContainingNamespace.Name);
+                }
             }
 
-            return usings;
-        }
-
-        private static string FormatUsing(string name)
-        {
-            return $"using {name};{Environment.NewLine}";
+            return string.Join("", namespaces.Distinct().Select(name => $"using {name};{Environment.NewLine}"));
         }
 
         private static object BuildMethodsString(IEnumerable<IMethodSymbol> methods)
@@ -95,23 +94,24 @@ public class {interceptorName} : {interfaceName} {{
                 // TODO: verificar se há necessidade
                 var methodReturn = method.ReturnsVoid ? "void" : method.ReturnType.ToString();
 
-                if (method.ReturnsVoid)
-                {
-                    methodsString += $@"public {methodReturn} {methodName}({methodParamsDeclarationString}){{
-    _service.{methodName}({methodParamsNamesString});
+                methodsString += $@"public {methodReturn} {methodName}({methodParamsDeclarationString}){{
+    {WriteReturn(method.ReturnsVoid is false)} _service.{methodName}({methodParamsNamesString});
 }}";
-                }
-                else
-                {
-                    methodsString += $@"public {methodReturn} {methodName}({methodParamsDeclarationString}){{
-    return _service.{methodName}({methodParamsNamesString});
-}}";
-
-                }
+                
                 methodsString += Environment.NewLine;
             }
 
             return methodsString;
+        }
+
+        private static string WriteReturn(bool hasReturn)
+        {
+            if (hasReturn)
+            {
+                return "return";
+            }
+
+            return "";
         }
 
         private static string GetParamName(string p, int index)
