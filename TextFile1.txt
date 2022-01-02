@@ -1,0 +1,6 @@
+0 -> Testar com namespaces e com parametros de classes customizadas
+1 -> Fazer e testar fluxo para transiente e singleton
+2 -> Dar suporte a injeção de dependência dentro do interceptor
+3 -> Manipular retorno do interceptor
+4 -> Criar interceptors nativos prontos para uso
+5 -> Criar pipeline de interceptors

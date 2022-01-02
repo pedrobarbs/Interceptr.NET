@@ -5,7 +5,12 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheInterceptor", "TheInterceptor\TheInterceptor.csproj", "{ED958387-D675-4FF6-BEEC-D7CFADE09184}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheInterceptor.SourceGenerator", "TheInterceptor.SourceGenerator\TheInterceptor.SourceGenerator.csproj", "{98353472-2552-4AF7-9557-F599FDDA04CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheInterceptor.SourceGenerator", "TheInterceptor.SourceGenerator\TheInterceptor.SourceGenerator.csproj", "{98353472-2552-4AF7-9557-F599FDDA04CB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E30D94EC-21C6-451D-AC5E-3DF74A5A5E2B}"
+	ProjectSection(SolutionItems) = preProject
+		TextFile1.txt = TextFile1.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
