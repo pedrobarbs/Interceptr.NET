@@ -2,9 +2,10 @@
 {
     public static class IServiceCollectionExtensions
     {
-        public static void AddScopedIntercepted<Interface, Class>(this IServiceCollection services) 
+        public static void AddScopedIntercepted<Interface, Class>(this IServiceCollection services) where Class : class
         {
-            //services.Add<Interface, InterceptionService>();  
+            services.AddScoped<Class>();  
+            services.AddScoped<ISampleService, SampleServiceInterceptor>();  
         
         }
     }

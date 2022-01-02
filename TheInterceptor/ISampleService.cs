@@ -2,6 +2,6 @@
 {
     public interface ISampleService
     {
-        int GetMeaningOfLife();
+        int GetMeaningOfLife(bool teste);
     }
 }

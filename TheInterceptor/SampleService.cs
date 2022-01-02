@@ -2,7 +2,7 @@
 {
     public class SampleService : ISampleService
     {
-        public int GetMeaningOfLife() 
+        public int GetMeaningOfLife(bool teste) 
         {
             return 42;
         }
