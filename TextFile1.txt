@@ -4,3 +4,6 @@
 3 -> Manipular retorno do interceptor
 4 -> Criar interceptors nativos prontos para uso
 5 -> Criar pipeline de interceptors
+
+Feitos
+X - Dar suporte a Task async

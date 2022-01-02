@@ -12,12 +12,12 @@ namespace TheInterceptor
     {
         public void Initialize(GeneratorInitializationContext context)
         {
-#if DEBUG
-            //if (!Debugger.IsAttached)
-            //{
-            //    Debugger.Launch();
-            //}
-#endif
+            //#if DEBUG
+            //            if (!Debugger.IsAttached)
+            //            {
+            //                Debugger.Launch();
+            //            }
+            //#endif
         }
 
         public void Execute(GeneratorExecutionContext context)
@@ -50,15 +50,17 @@ namespace TheInterceptor
 {usings}
 
 public class {interceptorName} : {interfaceName} {{ 
+
     private readonly {className} _service;
     private readonly IInterceptor _interceptor;
 
-    public {interceptorName}({className} service, IInterceptor interceptor) {{
+    public {interceptorName}({className} service, IInterceptor interceptor) 
+    {{
         _service = service;
         _interceptor = interceptor;
-}}
+    }}
 
-{methodsString}
+    {methodsString}
 
 }}";
         }
@@ -83,46 +85,100 @@ public class {interceptorName} : {interfaceName} {{
             return string.Join("", namespaces.Distinct().Select(name => $"using {name};{Environment.NewLine}"));
         }
 
-        private static object BuildMethodsString(IEnumerable<IMethodSymbol> methods)
+        private static string BuildMethodsString(IEnumerable<IMethodSymbol> methods)
         {
-            var methodsString = "";
+            var methodsStrings = new List<string>();
             foreach (var method in methods)
             {
-                var methodName = method.Name;
-                var methodParamsTypes = method.Parameters.Select(p => p.Type.ToString());
-                var methodParamsNames = methodParamsTypes.Select((p, index) => $"{GetParamName(p, index)}");
-                var methodParamsNamesString = string.Join(",", methodParamsNames);
-                var methodParamsDeclaration = methodParamsTypes.Select((p, index) => $"{p} {GetParamName(p, index)}"); // class @class, Carro @carro
-                var methodParamsDeclarationString = string.Join(",", methodParamsDeclaration);
-                // TODO: verificar se há necessidade
-                var methodReturn = method.ReturnsVoid ? "void" : method.ReturnType.ToString();
 
-                methodsString += $@"public {methodReturn} {methodName}({methodParamsDeclarationString}){{
+                methodsStrings.Add(
+$@"{WriteMethodSignature(method)}
+{{
     try
     {{
-        _interceptor.Pre();
-        {WriteReturn(method.ReturnsVoid is false)} _service.{methodName}({methodParamsNamesString});
+        _interceptor.ExecuteBefore();
+        {WriteServiceCall(method)}
     }}
     finally
     {{
-        _interceptor.Pos();
+        _interceptor.ExecuteAfter();
     }}
-}}";
-                
-                methodsString += Environment.NewLine;
+}}");
             }
 
-            return methodsString;
+            return string.Join($"{Environment.NewLine}{Environment.NewLine}", methodsStrings);
         }
 
-        private static string WriteReturn(bool hasReturn)
+        private static string WriteAwait(IMethodSymbol method)
         {
-            if (hasReturn)
-            {
-                return "return";
-            }
+            if (ReturnsTaskOrTaskT(method))
+                return "await ";
 
             return "";
+        }
+
+        private static bool ReturnsTaskOrTaskT(IMethodSymbol method)
+        {
+            return ReturnsTask(method) || ReturnsTaskT(method);
+        }
+
+        private static bool ReturnsTaskT(IMethodSymbol method)
+        {
+            return GetReturnTypeName(method).StartsWith("Task<");
+        }
+
+        private static string GetReturnTypeName(IMethodSymbol method)
+        {
+            return method.ReturnType.ToString().Split('.').Last();
+        }
+
+        private static bool ReturnsTask(IMethodSymbol method)
+        {
+            return GetReturnTypeName(method) == "Task";
+        }
+
+        private static string WriteServiceCall(IMethodSymbol method)
+        {
+            var methodParamsTypes = method.Parameters.Select(p => p.Type.ToString());
+            var methodParamsNames = methodParamsTypes.Select((p, index) => $"{GetParamName(p, index)}");
+            var methodParamsNamesString = string.Join(",", methodParamsNames);
+
+            return $"{WriteReturn(method)}{WriteAwait(method)}_service.{method.Name}({methodParamsNamesString});";
+        }
+
+        private static string WriteMethodSignature(IMethodSymbol method)
+        {
+            return $@"public {WriteAsyncKeyword(method)} {WriteMethodReturn(method)} {method.Name}({WriteMethodArguments(method)})";
+        }
+
+        private static object WriteAsyncKeyword(IMethodSymbol method)
+        {
+            if (ReturnsTaskOrTaskT(method))
+                return "async";
+
+            return "";
+        }
+
+        private static string WriteMethodArguments(IMethodSymbol method)
+        {
+            var methodParamsTypes = method.Parameters.Select(p => p.Type.ToString());
+            var methodParamsDeclaration = methodParamsTypes.Select((p, index) => $"{p} {GetParamName(p, index)}"); // class @class, Carro @carro
+            return string.Join(",", methodParamsDeclaration);
+        }
+
+        private static string WriteMethodReturn(IMethodSymbol method)
+        {
+            return method.ReturnType.ToString();
+        }
+
+        private static string WriteReturn(IMethodSymbol method)
+        {
+            if (method.ReturnsVoid || ReturnsTask(method))
+            {
+                return "";
+            }
+
+            return "return ";
         }
 
         private static string GetParamName(string p, int index)

@@ -2,12 +2,12 @@
 {
     public class SampleInterceptor : IInterceptor
     {
-        public void Pre()
+        public void ExecuteBefore()
         {
             Print("Starting");
         }
 
-        public void Pos()
+        public void ExecuteAfter()
         {
             Print("Finishing");
         }

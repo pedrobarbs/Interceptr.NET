@@ -18,5 +18,19 @@ namespace TheInterceptor.Controllers
         {
             return _sampleService.GetMeaningOfLife(true).ToString();
         }
+
+        [HttpGet("Create")]
+        public async Task<IActionResult> Create()
+        {
+            await _sampleService.CreateLifeAsync();
+            return Ok("Life apparently created..");
+        }
+
+        [HttpGet("Created")]
+        public async Task<IActionResult> Created()
+        {
+            var result = await _sampleService.IsLifeCreated();
+            return Ok(result ? "Yeah, there is LIFE!" : "No, there is no life here");
+        }
     }
 }

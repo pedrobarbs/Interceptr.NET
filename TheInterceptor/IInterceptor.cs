@@ -2,7 +2,7 @@
 {
     public interface IInterceptor
     {
-        public void Pre();
-        public void Pos();
+        public void ExecuteBefore();
+        public void ExecuteAfter();
     }
 }
