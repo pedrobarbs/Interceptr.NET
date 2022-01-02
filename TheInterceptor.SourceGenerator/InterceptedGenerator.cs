@@ -22,6 +22,7 @@ namespace TheInterceptor
 
         public void Execute(GeneratorExecutionContext context)
         {
+            // TODO: podem existir metodos com nomes parecidos que podem ser pegos erroneamente
             var registrationMethod = ".AddScopedIntercepted";
             var registrations = GetRegistrations(context, registrationMethod).ToList();
 
@@ -50,9 +51,11 @@ namespace TheInterceptor
 
 public class {interceptorName} : {interfaceName} {{ 
     private readonly {className} _service;
+    private readonly IInterceptor _interceptor;
 
-    public {interceptorName}({className} service) {{
+    public {interceptorName}({className} service, IInterceptor interceptor) {{
         _service = service;
+        _interceptor = interceptor;
 }}
 
 {methodsString}
@@ -95,7 +98,15 @@ public class {interceptorName} : {interfaceName} {{
                 var methodReturn = method.ReturnsVoid ? "void" : method.ReturnType.ToString();
 
                 methodsString += $@"public {methodReturn} {methodName}({methodParamsDeclarationString}){{
-    {WriteReturn(method.ReturnsVoid is false)} _service.{methodName}({methodParamsNamesString});
+    try
+    {{
+        _interceptor.Pre();
+        {WriteReturn(method.ReturnsVoid is false)} _service.{methodName}({methodParamsNamesString});
+    }}
+    finally
+    {{
+        _interceptor.Pos();
+    }}
 }}";
                 
                 methodsString += Environment.NewLine;
@@ -132,9 +143,6 @@ public class {interceptorName} : {interfaceName} {{
             {
                 var semanticModel = compilation.GetSemanticModel(tree);
 
-
-
-                /////////////
                 var root = tree.GetRoot();
 
                 var descendend = root.DescendantNodes();
@@ -150,16 +158,6 @@ public class {interceptorName} : {interfaceName} {{
                 return targetInvocations
                     .Select(invocation =>
                     {
-                        //var text = invocation.GetText().ToString();
-                        //var openIndex = text.IndexOf('<');
-                        //var closeIndex = text.IndexOf('>');
-
-                        //var types = text.Substring(openIndex + 1, closeIndex - openIndex - 1);
-
-                        //var array = types.Split(',');
-                        //var interfaceName = array[0].Trim();
-                        //var className = array[1].Trim();
-
                         var expression = invocation.Expression.DescendantNodes()
                             .OfType<GenericNameSyntax>().FirstOrDefault();
 
@@ -171,7 +169,6 @@ public class {interceptorName} : {interfaceName} {{
                         return (@interface, @class);
                     })
                     .Distinct();
-
             }
 
             return Enumerable.Empty<(TypeInfo, TypeInfo)>();

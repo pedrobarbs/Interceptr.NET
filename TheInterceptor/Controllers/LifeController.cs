@@ -14,6 +14,10 @@ namespace TheInterceptor.Controllers
         }
 
         [HttpGet]
-        public string Get() => _sampleService.GetMeaningOfLife(true).ToString();
+        public string Get()
+        {
+            Console.WriteLine("Hello from controller");
+            return _sampleService.GetMeaningOfLife(true).ToString();
+        }
     }
 }
