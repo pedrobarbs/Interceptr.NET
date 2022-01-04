@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using TheInterceptor.Entities;
+using TheInterceptor.Interfaces;
 
 namespace TheInterceptor.Controllers
 {
@@ -13,7 +15,7 @@ namespace TheInterceptor.Controllers
             _sampleService = sampleService;
         }
 
-        [HttpGet]
+        [HttpGet("Meaning")]
         public string Get()
         {
             return _sampleService.GetMeaningOfLife(true).ToString();
@@ -29,7 +31,8 @@ namespace TheInterceptor.Controllers
         [HttpGet("Created")]
         public async Task<IActionResult> Created()
         {
-            var result = await _sampleService.IsLifeCreated();
+            var life = new Life();
+            var result = await _sampleService.IsLifeCreated(life);
             return Ok(result ? "Yeah, there is LIFE!" : "No, there is no life here");
         }
     }

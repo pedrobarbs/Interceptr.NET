@@ -1,4 +1,5 @@
-﻿namespace TheInterceptor
+﻿
+namespace TheInterceptor
 {
     public class SampleInterceptor : IInterceptor
     {

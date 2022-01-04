@@ -1,4 +1,7 @@
 using TheInterceptor;
+using TheInterceptor.Interfaces;
+using TheInterceptor.Services;
+using TheInterceptor.SourceGenerator;
 
 var builder = WebApplication.CreateBuilder(args);
 

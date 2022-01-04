@@ -12,9 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TheInterceptor.SourceGenerator\TheInterceptor.SourceGenerator.csproj" 
-					  ReferenceOutputAssembly="false"
-					  OutputItemType="Analyzer"/>
+    <ProjectReference Include="..\TheInterceptor.SourceGenerator\TheInterceptor.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
   </ItemGroup>
 
 </Project>

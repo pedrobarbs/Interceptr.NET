@@ -1,4 +1,8 @@
-﻿namespace TheInterceptor
+﻿
+using Microsoft.Extensions.DependencyInjection;
+using System;
+
+namespace TheInterceptor.SourceGenerator
 {
     public static class IServiceCollectionExtensions
     {
@@ -14,9 +18,9 @@
 
             services.AddScoped(typeof(Interface), provider => 
             {
-                var service = provider.GetService<Class>()!;
+                var service = provider.GetService<Class>();
 
-                return Activator.CreateInstance(intercepted, service, interceptor)!;
+                return Activator.CreateInstance(intercepted, service, interceptor);
             });
         }
     }

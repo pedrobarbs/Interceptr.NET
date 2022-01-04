@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using TheInterceptor.SourceGenerator;
 
 namespace TheInterceptor
 {
@@ -12,12 +13,12 @@ namespace TheInterceptor
     {
         public void Initialize(GeneratorInitializationContext context)
         {
-            //#if DEBUG
-            //            if (!Debugger.IsAttached)
-            //            {
-            //                Debugger.Launch();
-            //            }
-            //#endif
+#if DEBUG
+            if (!Debugger.IsAttached)
+            {
+                Debugger.Launch();
+            }
+#endif
         }
 
         public void Execute(GeneratorExecutionContext context)
@@ -36,25 +37,23 @@ namespace TheInterceptor
 
         private static string BuildClass(string interceptorName, TypeInfo @interface, TypeInfo @class)
         {
-            var interfaceName = @interface.Type.Name;
-            var className = @class.Type.Name;
-            var interfaceNamespace = @interface.Type.ContainingNamespace;
-            var classNamespace = @class.Type.ContainingNamespace;
+            var interfaceFullName = @interface.Type.GetFullName();
+            var className = @class.Type.GetFullName();
 
             var methods = @interface.Type.GetMembers().OfType<IMethodSymbol>();
 
             var methodsString = BuildMethodsString(methods);
-            var usings = BuildUsings(interfaceNamespace.Name, classNamespace.Name, methods);
+            var usings = BuildUsings();
 
             return $@"
 {usings}
 
-public class {interceptorName} : {interfaceName} {{ 
+public class {interceptorName} : {interfaceFullName} {{ 
 
     private readonly {className} _service;
-    private readonly IInterceptor _interceptor;
+    private readonly TheInterceptor.IInterceptor _interceptor;
 
-    public {interceptorName}({className} service, IInterceptor interceptor) 
+    public {interceptorName}({className} service, TheInterceptor.IInterceptor interceptor) 
     {{
         _service = service;
         _interceptor = interceptor;
@@ -65,24 +64,18 @@ public class {interceptorName} : {interfaceName} {{
 }}";
         }
 
-        private static string BuildUsings(string interfaceNamespace, string classNamespace, IEnumerable<IMethodSymbol> methods)
+        private static string BuildUsings()
         {
             List<string> namespaces = new List<string>()
             {
-                interfaceNamespace,
-                classNamespace,
+                "System"
             };
 
-
-            foreach (var method in methods)
-            {
-                foreach (var parameter in method.Parameters)
-                {
-                    namespaces.Add(parameter.ContainingNamespace.Name);
-                }
-            }
-
-            return string.Join("", namespaces.Distinct().Select(name => $"using {name};{Environment.NewLine}"));
+            return string.Join("", 
+                namespaces
+                    .Distinct()
+                    .OrderBy(@namespace => @namespace)
+                    .Select(name => $"using {name};{Environment.NewLine}"));
         }
 
         private static string BuildMethodsString(IEnumerable<IMethodSymbol> methods)
@@ -161,14 +154,14 @@ $@"{WriteMethodSignature(method)}
 
         private static string WriteMethodArguments(IMethodSymbol method)
         {
-            var methodParamsTypes = method.Parameters.Select(p => p.Type.ToString());
+            var methodParamsTypes = method.Parameters.Select(p => p.Type.GetFullName());
             var methodParamsDeclaration = methodParamsTypes.Select((p, index) => $"{p} {GetParamName(p, index)}"); // class @class, Carro @carro
             return string.Join(",", methodParamsDeclaration);
         }
 
         private static string WriteMethodReturn(IMethodSymbol method)
         {
-            return method.ReturnType.ToString();
+            return method.ReturnType.GetFullName();
         }
 
         private static string WriteReturn(IMethodSymbol method)
@@ -183,7 +176,7 @@ $@"{WriteMethodSignature(method)}
 
         private static string GetParamName(string p, int index)
         {
-            return $"@{p.ToLowerInvariant()}{index}";
+            return $"@{p.ToLowerInvariant().Split('.').Last()}{index}";
         }
 
         private static IEnumerable<(TypeInfo @interface, TypeInfo @class)> GetRegistrations(
