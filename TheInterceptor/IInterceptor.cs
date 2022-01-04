@@ -2,7 +2,7 @@
 {
     public interface IInterceptor
     {
-        public void ExecuteBefore();
-        public void ExecuteAfter();
+        public void ExecuteBefore(CallContext context);
+        public void ExecuteAfter(CallContext context, object result);
     }
 }

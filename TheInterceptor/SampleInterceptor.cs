@@ -3,12 +3,12 @@ namespace TheInterceptor
 {
     public class SampleInterceptor : IInterceptor
     {
-        public void ExecuteBefore()
+        public void ExecuteBefore(CallContext context)
         {
             Print("Starting");
         }
 
-        public void ExecuteAfter()
+        public void ExecuteAfter(CallContext context, object result)
         {
             Print("Finishing");
         }

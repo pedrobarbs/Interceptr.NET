@@ -5,6 +5,7 @@
 4 -> Criar interceptors nativos prontos para uso
 5 -> Criar pipeline de interceptors
 6 -> Verificar como se comportam parametros opcionais
+7 -> Interceptor async
 
 Feitos
 0 -> Testar com namespaces e com parametros de classes customizadas, IEnumerable, etc..
