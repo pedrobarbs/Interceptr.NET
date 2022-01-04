@@ -87,17 +87,18 @@ public class {interceptorName} : {interfaceFullName} {{
                 methodsStrings.Add(
 $@"{WriteMethodSignature(method)}
 {{
+    var callContext = {WriteCallContext(method)};
     {WriteObjectResultDeclaration(method)}
     try
     {{
-        _interceptor.ExecuteBefore({WriteCallContext(method)});
+        _interceptor.ExecuteBefore(callContext);
         {WriteServiceCall(method)}
         {WriteToObjectResult(method)}
         {WriteReturn(method)}
     }}
     finally
     {{
-        _interceptor.ExecuteAfter({WriteCallContext(method)}, objectResult);
+        _interceptor.ExecuteAfter(callContext, objectResult);
     }}
 }}");
             }
