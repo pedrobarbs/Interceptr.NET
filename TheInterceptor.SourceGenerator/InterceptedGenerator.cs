@@ -51,12 +51,12 @@ namespace TheInterceptor
 public class {interceptorName} : {interfaceFullName} {{ 
 
     private readonly {className} _service;
-    private readonly TheInterceptor.IInterceptor _interceptor;
+    private readonly TheInterceptor.IInterceptor[] _interceptors;
 
-    public {interceptorName}({className} service, TheInterceptor.IInterceptor interceptor) 
+    public {interceptorName}({className} service, params TheInterceptor.IInterceptor[] interceptors) 
     {{
         _service = service;
-        _interceptor = interceptor;
+        _interceptors = interceptors;
     }}
 
     {methodsString}
@@ -91,14 +91,21 @@ $@"{WriteMethodSignature(method)}
     {WriteObjectResultDeclaration(method)}
     try
     {{
-        _interceptor.ExecuteBefore(callContext);
+        foreach(var interceptor in _interceptors.Reverse())
+        {{
+            interceptor.ExecuteBefore(callContext);
+        }}
+        
         {WriteServiceCall(method)}
         {WriteToObjectResult(method)}
         {WriteReturn(method)}
     }}
     finally
     {{
-        _interceptor.ExecuteAfter(callContext, objectResult);
+        foreach(var interceptor in _interceptors)
+        {{
+            interceptor.ExecuteAfter(callContext, objectResult);
+        }}
     }}
 }}");
             }

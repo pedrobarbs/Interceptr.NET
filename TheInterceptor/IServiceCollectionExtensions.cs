@@ -6,7 +6,15 @@ namespace TheInterceptor.SourceGenerator
 {
     public static class IServiceCollectionExtensions
     {
-        public static void AddScopedIntercepted<Interface, Class>(this IServiceCollection services, IInterceptor interceptor) where Class : class
+        /// <summary>
+        /// Add scoped services and intercepts them. The first provided interceptor will execute closer to the service's method. So the last provided interceptor will execute more distant to the service's method.
+        /// </summary>
+        /// <typeparam name="Interface"></typeparam>
+        /// <typeparam name="Class"></typeparam>
+        /// <param name="services"></param>
+        /// <param name="interceptors"></param>
+        /// <exception cref="InvalidOperationException"></exception>
+        public static void AddScopedIntercepted<Interface, Class>(this IServiceCollection services, params IInterceptor[] interceptors) where Class : class
         {
             services.AddScoped<Class>();
 
@@ -20,7 +28,7 @@ namespace TheInterceptor.SourceGenerator
             {
                 var service = provider.GetService<Class>();
 
-                return Activator.CreateInstance(intercepted, service, interceptor);
+                return Activator.CreateInstance(intercepted, service, interceptors);
             });
         }
     }

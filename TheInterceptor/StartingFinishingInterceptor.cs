@@ -1,7 +1,7 @@
 ﻿
 namespace TheInterceptor
 {
-    public class SampleInterceptor : IInterceptor
+    public class StartingFinishingInterceptor : IInterceptor
     {
         public void ExecuteBefore(CallContext context)
         {
