@@ -1,18 +1,13 @@
-- Fazer e testar fluxo para transiente e singleton
-
 - Melhorar Descoberta de registro de interceptors.
-
-
 - Manipular retorno do interceptor
-
 - Verificar como se comportam parametros opcionais
 - Interceptor async
 - Dar suporte a injeção de dependência dentro do interceptor
 
 Feitos
-
-- -> Testar com namespaces e com parametros de classes customizadas, IEnumerable, etc..
-- - Dar suporte a Task async
+- Fazer e testar fluxo para transiente e singleton
+- Testar com namespaces e com parametros de classes customizadas, IEnumerable, etc..
+- Dar suporte a Task async
 
 
 

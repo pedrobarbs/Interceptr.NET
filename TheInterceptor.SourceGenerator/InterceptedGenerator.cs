@@ -139,13 +139,13 @@ $@"{WriteMethodSignature(method)}
 
         private static string WriteAwait(IMethodSymbol method)
         {
-            if (ReturnsTaskOrTaskT(method))
+            if (CanBeAwaited(method))
                 return "await ";
 
             return "";
         }
 
-        private static bool ReturnsTaskOrTaskT(IMethodSymbol method)
+        private static bool CanBeAwaited(IMethodSymbol method)
         {
             return ReturnsTask(method) || ReturnsTaskT(method);
         }
@@ -197,7 +197,7 @@ $@"{WriteMethodSignature(method)}
 
         private static object WriteAsyncKeyword(IMethodSymbol method)
         {
-            if (ReturnsTaskOrTaskT(method))
+            if (CanBeAwaited(method))
                 return "async";
 
             return "";
