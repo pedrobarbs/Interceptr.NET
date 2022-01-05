@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using TheInterceptor.SourceGenerator;
 
 namespace TheInterceptor
 {
@@ -68,7 +67,8 @@ public class {interceptorName} : {interfaceFullName} {{
         {
             List<string> namespaces = new List<string>()
             {
-                "System"
+                "System",
+                "TheInterceptor"
             };
 
             return string.Join("", 
@@ -134,18 +134,18 @@ $@"{WriteMethodSignature(method)}
             var methodParamsNames = GetParamsNames(method);
             var methodParamsNamesString = string.Join(",", methodParamsNames);
 
-            return $"new TheInterceptor.CallContext() {{ MethodName = \"{method.Name}\", Parameters = new System.Collections.ObjectModel.ReadOnlyCollection<object>(new List<object>(){{{methodParamsNamesString}}}) }}";
+            return $"new TheInterceptor.CallContext(\"{method.Name}\", new System.Collections.ObjectModel.ReadOnlyCollection<object>(new List<object>(){{{methodParamsNamesString}}}))";
         }
 
         private static string WriteAwait(IMethodSymbol method)
         {
-            if (ReturnsTaskOrTaskT(method))
+            if (CanBeAwaited(method))
                 return "await ";
 
             return "";
         }
 
-        private static bool ReturnsTaskOrTaskT(IMethodSymbol method)
+        private static bool CanBeAwaited(IMethodSymbol method)
         {
             return ReturnsTask(method) || ReturnsTaskT(method);
         }
@@ -197,7 +197,7 @@ $@"{WriteMethodSignature(method)}
 
         private static object WriteAsyncKeyword(IMethodSymbol method)
         {
-            if (ReturnsTaskOrTaskT(method))
+            if (CanBeAwaited(method))
                 return "async";
 
             return "";

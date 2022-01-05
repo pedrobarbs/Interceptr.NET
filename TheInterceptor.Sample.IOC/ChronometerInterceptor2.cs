@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics;
-using TheInterceptor;
 
-namespace TheInterceptor
+namespace TheInterceptor.Sample.Layer2
 {
-    public class ChronometerInterceptor : IInterceptor
+    public class ChronometerInterceptor2 : IInterceptor
     {
         private Stopwatch _sw;
 

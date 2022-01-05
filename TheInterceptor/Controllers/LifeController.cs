@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TheInterceptor.Entities;
 using TheInterceptor.Interfaces;
+using TheInterceptor.Sample.Layer2;
 
 namespace TheInterceptor.Controllers
 {
@@ -9,9 +10,11 @@ namespace TheInterceptor.Controllers
     public class LifeController : ControllerBase
     {
         private readonly ISampleService _sampleService;
+        private readonly IServiceLayer2 _layer2;
 
-        public LifeController(ISampleService sampleService)
+        public LifeController(ISampleService sampleService, IServiceLayer2 layer2)
         {
+            _layer2 = layer2;
             _sampleService = sampleService;
         }
 
@@ -34,6 +37,12 @@ namespace TheInterceptor.Controllers
             var life = new Life();
             var result = await _sampleService.IsLifeCreated(life);
             return Ok(result ? "Yeah, there is LIFE!" : "No, there is no life here");
+        }
+
+        [HttpGet("layer")]
+        public async Task<IActionResult> Layer()
+        {
+            return Ok(_layer2.GetLuckyNumber());
         }
     }
 }

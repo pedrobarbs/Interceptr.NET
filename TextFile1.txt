@@ -1,12 +1,23 @@
-0 -> Interceptors encadeados (interceptor chamando interceptor..)
-1 -> Fazer e testar fluxo para transiente e singleton
-2 -> Dar suporte a injeção de dependência dentro do interceptor
-3 -> Manipular retorno do interceptor
-4 -> Criar interceptors nativos prontos para uso
-5 -> Criar pipeline de interceptors
-6 -> Verificar como se comportam parametros opcionais
-7 -> Interceptor async
+- Melhorar Descoberta de registro de interceptors.
+- Manipular retorno do interceptor
+- Verificar como se comportam parametros opcionais
+- Interceptor async
+- Dar suporte a injeção de dependência dentro do interceptor
 
 Feitos
-0 -> Testar com namespaces e com parametros de classes customizadas, IEnumerable, etc..
-X - Dar suporte a Task async
+- Fazer e testar fluxo para transiente e singleton
+- Testar com namespaces e com parametros de classes customizadas, IEnumerable, etc..
+- Dar suporte a Task async
+
+
+
+README
+
+Este projeto é uma extensão do DI padrão do .NET a fim de prover interceptors. 
+
+O que são interceptors?
+
+São classes utilizadas para enxertar código antes e depois de execução de funções.
+
+
+
