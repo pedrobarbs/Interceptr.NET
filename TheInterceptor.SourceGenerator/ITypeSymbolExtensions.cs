@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace TheInterceptor.SourceGenerator
+namespace TheInterceptor
 {
     public static class ITypeSymbolExtensions
     {

@@ -1,4 +1,6 @@
-﻿
+﻿using TheInterceptor;
+
+
 namespace TheInterceptor
 {
     public class StartingFinishingInterceptor : IInterceptor

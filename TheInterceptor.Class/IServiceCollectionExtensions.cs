@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace TheInterceptor.SourceGenerator
+namespace TheInterceptor
 {
     public static class IServiceCollectionExtensions
     {
@@ -24,7 +24,7 @@ namespace TheInterceptor.SourceGenerator
             if (intercepted is null)
                 throw new InvalidOperationException($"{classname} has no dynamically generated intercepted service");
 
-            services.AddScoped(typeof(Interface), provider => 
+            services.AddScoped(typeof(Interface), provider =>
             {
                 var service = provider.GetService<Class>();
 

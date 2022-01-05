@@ -10,3 +10,16 @@
 Feitos
 0 -> Testar com namespaces e com parametros de classes customizadas, IEnumerable, etc..
 X - Dar suporte a Task async
+
+
+
+README
+
+Este projeto é uma extensão do DI padrão do .NET a fim de prover interceptors. 
+
+O que são interceptors?
+
+São classes utilizadas para enxertar código antes e depois de execução de funções.
+
+
+

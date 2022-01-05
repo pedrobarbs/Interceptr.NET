@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TheInterceptor.Class\TheInterceptor.csproj" />
+    <ProjectReference Include="..\TheInterceptor.Sample.LayerTwo\TheInterceptor.Sample.Layer2.csproj" />
     <ProjectReference Include="..\TheInterceptor.SourceGenerator\TheInterceptor.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
   </ItemGroup>
 
