@@ -23,8 +23,14 @@ namespace TheInterceptor
         public void Execute(GeneratorExecutionContext context)
         {
             // TODO: podem existir metodos com nomes parecidos que podem ser pegos erroneamente
-            var registrationMethod = ".AddScopedIntercepted";
-            var registrations = GetRegistrations(context, registrationMethod).ToList();
+            var registrationMethods = new[] 
+            { 
+                ".AddTransientIntercepted", 
+                ".AddScopedIntercepted",
+                ".AddSingletonIntercepted" 
+            };
+
+            var registrations = GetRegistrations(context, registrationMethods).ToList();
 
             foreach (var (@interface, @class) in registrations)
             {
@@ -232,12 +238,12 @@ $@"{WriteMethodSignature(method)}
 
         private static IEnumerable<(TypeInfo @interface, TypeInfo @class)> GetRegistrations(
             GeneratorExecutionContext context,
-            string registrationMethod)
+            string[] registrationMethods)
         {
             var compilation = context.Compilation;
             var syntaxTrees = compilation.SyntaxTrees;
 
-            var targetTrees = syntaxTrees.Where(prop => prop.GetText().ToString().Contains(registrationMethod));
+            var targetTrees = syntaxTrees.Where(prop => registrationMethods.Any(method => prop.GetText().ToString().Contains(method)));
 
             foreach (var tree in targetTrees)
             {
@@ -253,7 +259,7 @@ $@"{WriteMethodSignature(method)}
                 var targetInvocations = invocations
                     .Where(
                         prop =>
-                            prop.GetText().ToString().Contains(registrationMethod));
+                            registrationMethods.Any(method => prop.GetText().ToString().Contains(method)));
 
                 return targetInvocations
                     .Select(invocation =>

@@ -9,13 +9,15 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.0.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+		<PackageReference Include="TheInterceptor" Version="1.0.0-rc1" />
+		<!--<PackageReference Include="TheInterceptor" Version="1.0.0-rc1" />-->
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\TheInterceptor.Sample.IOC\TheInterceptor.Sample.IOC.csproj" />
 		<ProjectReference Include="..\TheInterceptor.Sample.LayerTwo\TheInterceptor.Sample.Layer2.csproj" />
-		<ProjectReference Include="..\TheInterceptor.Class\TheInterceptor.Models.csproj" />
-		<ProjectReference Include="..\TheInterceptor.SourceGenerator\TheInterceptor.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+		<!--<ProjectReference Include="..\TheInterceptor.Class\TheInterceptor.Models.csproj" />
+		<ProjectReference Include="..\TheInterceptor.SourceGenerator\TheInterceptor.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />-->
 	</ItemGroup>
 
 </Project>

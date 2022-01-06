@@ -8,7 +8,7 @@ namespace TheInterceptor.Sample.IOC
     {
         public static void AddOtherLayers(this IServiceCollection services)
         {
-            services.AddScopedIntercepted<IServiceLayer2, ServiceLayer2>(
+            services.AddTransientIntercepted<IServiceLayer2, ServiceLayer2>(
                 new ChronometerInterceptor2()
                 );
 
