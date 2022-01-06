@@ -6,6 +6,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
+	<PropertyGroup Condition=" '$(RunConfiguration)' == 'TheInterceptor' " />
+	<PropertyGroup Condition=" '$(RunConfiguration)' == 'TheInterceptor.Sample' " />
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.0.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />

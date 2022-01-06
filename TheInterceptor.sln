@@ -3,26 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheInterceptor.Sample", "TheInterceptor\TheInterceptor.Sample.csproj", "{ED958387-D675-4FF6-BEEC-D7CFADE09184}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheInterceptor.Sample.API", "examples\TheInterceptor.Sample.API\TheInterceptor.Sample.API.csproj", "{ED958387-D675-4FF6-BEEC-D7CFADE09184}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheInterceptor.SourceGenerator", "TheInterceptor.SourceGenerator\TheInterceptor.SourceGenerator.csproj", "{98353472-2552-4AF7-9557-F599FDDA04CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheInterceptor.SourceGenerator", "src\TheInterceptor.SourceGenerator\TheInterceptor.SourceGenerator.csproj", "{98353472-2552-4AF7-9557-F599FDDA04CB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E30D94EC-21C6-451D-AC5E-3DF74A5A5E2B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E30D94EC-21C6-451D-AC5E-3DF74A5A5E2B}"
 	ProjectSection(SolutionItems) = preProject
-		TextFile1.txt = TextFile1.txt
+		backlog.txt = backlog.txt
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheInterceptor.Models", "TheInterceptor.Class\TheInterceptor.Models.csproj", "{BF0C53D0-73AA-4023-BD82-8204F8B3DE47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheInterceptor.Models", "src\TheInterceptor.Models\TheInterceptor.Models.csproj", "{BF0C53D0-73AA-4023-BD82-8204F8B3DE47}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheInterceptor.Sample.Layer2", "TheInterceptor.Sample.LayerTwo\TheInterceptor.Sample.Layer2.csproj", "{C6A44E34-D0DB-4FF4-999A-BA64041596F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheInterceptor.Sample.Layer2", "examples\TheInterceptor.Sample.LayerTwo\TheInterceptor.Sample.Layer2.csproj", "{C6A44E34-D0DB-4FF4-999A-BA64041596F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheInterceptor.Sample.Layer3", "TheInterceptor.Sample.LayerThree\TheInterceptor.Sample.Layer3.csproj", "{860B89A8-CDAB-4082-8B73-1290BE33F4B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheInterceptor.Sample.Layer3", "examples\TheInterceptor.Sample.LayerThree\TheInterceptor.Sample.Layer3.csproj", "{860B89A8-CDAB-4082-8B73-1290BE33F4B7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{87D9910D-AD9D-4195-AD69-2855E13853D8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "use cases", "use cases", "{B786E1BF-522C-46AE-B7A3-ECF20FDC5A6F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{B786E1BF-522C-46AE-B7A3-ECF20FDC5A6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheInterceptor.Sample.IOC", "TheInterceptor.Sample.IOC\TheInterceptor.Sample.IOC.csproj", "{96B1CC49-79E7-4E3B-9478-DDE26E997D13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheInterceptor.Sample.IOC", "examples\TheInterceptor.Sample.IOC\TheInterceptor.Sample.IOC.csproj", "{96B1CC49-79E7-4E3B-9478-DDE26E997D13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
