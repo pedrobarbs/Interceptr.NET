@@ -205,13 +205,13 @@ $@"{WriteMethodSignature(method)}
 
         private static string WriteMethodSignature(IMethodSymbol method)
         {
-            return $@"public {WriteAsyncKeyword(method)} {WriteMethodReturn(method)} {method.Name}({WriteMethodArguments(method)})";
+            return $@"public {WriteAsyncKeyword(method)}{WriteMethodReturn(method)} {method.Name}({WriteMethodArguments(method)})";
         }
 
         private static object WriteAsyncKeyword(IMethodSymbol method)
         {
             if (CanBeAwaited(method))
-                return "async";
+                return "async ";
 
             return "";
         }

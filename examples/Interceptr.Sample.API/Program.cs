@@ -1,35 +1,20 @@
-using Interceptr;
-using Interceptr.Interfaces;
-using Interceptr.Sample.IOC;
-using Interceptr.Sample.Layer2;
-using Interceptr.Sample.Layer3;
-using Interceptr.Services;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddControllers();
-
-builder.Services.AddScopedIntercepted<ISampleService, SampleService>(
-    new Interceptr.ChronometerInterceptor(),
-    new StartingFinishingInterceptor());
-
-builder.Services.AddOtherLayers();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+namespace Interceptr.Sample.API
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
