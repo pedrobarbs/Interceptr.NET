@@ -14,13 +14,7 @@ namespace Interceptr.Sample.Layer2
         public void ExecuteAfter(CallContext context, object result)
         {
             _sw.Stop();
-            Print($"{_sw.Elapsed.TotalMilliseconds} milliseconds to execute");
-        }
-
-
-        private static void Print(string @string)
-        {
-            System.Diagnostics.Debug.WriteLine(@string);
+            Debug.WriteLine($"Method {context.MethodName} has taken {_sw.Elapsed.TotalMilliseconds} milliseconds to execute");
         }
     }
 }
