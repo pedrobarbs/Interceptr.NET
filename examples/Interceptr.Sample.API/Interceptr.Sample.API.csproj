@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(RunConfiguration)' == 'Interceptr' " />
+	<PropertyGroup Condition=" '$(RunConfiguration)' == 'Interceptr.Sample' " />
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.0.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+		<!--<PackageReference Include="TheInterceptor" Version="1.0.0-rc1" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Interceptr.Sample.IOC\Interceptr.Sample.IOC.csproj" />
+		<ProjectReference Include="..\Interceptr.Sample.LayerTwo\Interceptr.Sample.Layer2.csproj" />
+		<ProjectReference Include="..\..\src\Interceptr.Models\Interceptr.Models.csproj" />
+		<ProjectReference Include="..\..\src\Interceptr.SourceGenerator\Interceptr.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+	</ItemGroup>
+
+</Project>
