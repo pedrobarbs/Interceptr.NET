@@ -12,22 +12,22 @@ namespace Interceptr
     {
         public void Initialize(GeneratorInitializationContext context)
         {
-//#if DEBUG
-//            if (!Debugger.IsAttached)
-//            {
-//                Debugger.Launch();
-//            }
-//#endif
+            //#if DEBUG
+            //            if (!Debugger.IsAttached)
+            //            {
+            //                Debugger.Launch();
+            //            }
+            //#endif
         }
 
         public void Execute(GeneratorExecutionContext context)
         {
             // TODO: podem existir metodos com nomes parecidos que podem ser pegos erroneamente
-            var registrationMethods = new[] 
-            { 
-                ".AddTransientIntercepted", 
+            var registrationMethods = new[]
+            {
+                ".AddTransientIntercepted",
                 ".AddScopedIntercepted",
-                ".AddSingletonIntercepted" 
+                ".AddSingletonIntercepted"
             };
 
             var registrations = GetRegistrations(context, registrationMethods).ToList();
@@ -73,11 +73,18 @@ public class {interceptorName} : {interfaceFullName} {{
         {
             List<string> namespaces = new List<string>()
             {
-                "System",
-                "Interceptr"
-            };
+                "Interceptr",
+                "System",                
+                "System.Collections.Generic",
+                "System.IO",
+                "System.Linq",
+                "System.Net.Http",
+                "System.Threading",
+                "System.Threading.Tasks"
 
-            return string.Join("", 
+        };
+
+            return string.Join("",
                 namespaces
                     .Distinct()
                     .OrderBy(@namespace => @namespace)
@@ -133,7 +140,7 @@ $@"{WriteMethodSignature(method)}
         {
             return $"object objectResult = null;";
         }
-    
+
 
         private static string WriteCallContext(IMethodSymbol method)
         {
