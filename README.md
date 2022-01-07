@@ -19,20 +19,20 @@ For example:
 
 ```cs
 public class StopwatchInterceptor : IInterceptor
+{
+    private Stopwatch _sw;
+
+    public void ExecuteBefore(CallContext context)
     {
-        private Stopwatch _sw;
-
-        public void ExecuteBefore(CallContext context)
-        {
-            _sw = Stopwatch.StartNew();
-        }
-
-        public void ExecuteAfter(CallContext context, object result)
-        {
-            _sw.Stop();
-            Debug.WriteLine($"Method {context.MethodName} has taken {_sw.Elapsed.TotalMilliseconds} milliseconds to execute");
-        }
+        _sw = Stopwatch.StartNew();
     }
+
+    public void ExecuteAfter(CallContext context, object result)
+    {
+        _sw.Stop();
+        Debug.WriteLine($"Method {context.MethodName} has taken {_sw.Elapsed.TotalMilliseconds} milliseconds to execute");
+    }
+}
 ```
 
 After that you will need to register your dependencies with the one of the three provided extensions methods, passing as parameters your custom interceptor objects:
@@ -52,4 +52,4 @@ The first interceptor parameter will execute more closely to the intercepted ser
 And thats it, now you're ready to go!
 
 ## Contributing
-This library is an open-source project, you can contributing by bringing new ideas and reporting bugs to discussion at github. Once a change is accepted, it will be up for grab. Just fork the repository, apply code changes and then create a pull-request targeting the original repository on **develop**.
+This library is an open-source project, you can contributing by bringing new ideas and reporting bugs to discussion at github. Once a change is accepted, it will be up for grab. Just fork the repository, apply code changes and then create a pull-request targeting the original repository on branch **develop**.
