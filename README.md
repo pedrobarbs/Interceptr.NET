@@ -8,8 +8,8 @@ It is built with source generators in order to only use reflection at compile ti
 Another benefit is that you can easily debug the generated code.
 
 ## Compatibility
-.NET 6.x
-.NET 5.x
+* .NET 6.x
+* .NET 5.x
 
 ## Getting started
 
