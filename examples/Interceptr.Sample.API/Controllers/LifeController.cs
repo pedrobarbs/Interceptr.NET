@@ -39,8 +39,8 @@ namespace Interceptr.Controllers
             return Ok(result ? "Yeah, there is LIFE!" : "No, there is no life here");
         }
 
-        [HttpGet("layer")]
-        public async Task<IActionResult> Layer()
+        [HttpGet("LuckyNumber")]
+        public IActionResult LuckyNumber()
         {
             return Ok(_layer2.GetLuckyNumber());
         }
