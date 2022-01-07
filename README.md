@@ -38,9 +38,9 @@ public class StopwatchInterceptor : IInterceptor
 After that you will need to register your dependencies with the one of the three provided extensions methods, passing as parameters your custom interceptor objects:
 
 ```cs
-services.AddTransientIntercepted<TInterface, TClass>(params IInceteptor[] interceptors);
-services.AddScopedIntercepted<TInterface, TClass>(params IInceteptor[] interceptors);
-services.AddSingletonIntercepted<TInterface, TClass>(params IInceteptor[] interceptors);
+services.AddTransientIntercepted<TInterface, TClass>(params IInterceptor[] interceptors);
+services.AddScopedIntercepted<TInterface, TClass>(params IInterceptor[] interceptors);
+services.AddSingletonIntercepted<TInterface, TClass>(params IInterceptor[] interceptors);
 ```
 
 There is a point of attention here, the order of interceptors passed to these methods above will affect the execution. 
