@@ -1,7 +1,7 @@
 # Interceptr.NET
 ## Description
 
-With this library you can easily intercept service calls using the default .NET DI framework. And that means you can inject code to execute logics before and after a service call.
+With this library you can easily intercept service calls using the default .NET DI framework. That means you can inject code to execute logics before and after a service call.
 
 It is built with source generators in order to only use reflection at compile time as long as it helps to guarantee application's performance and safety.
 
