@@ -1,3 +1,5 @@
+- Testar compatibilidade
+- Testar performance
 - Melhorar Descoberta de registro de interceptors.
 - Manipular retorno do interceptor
 - Verificar como se comportam parametros opcionais
