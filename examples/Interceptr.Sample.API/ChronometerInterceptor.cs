@@ -7,6 +7,8 @@ namespace Interceptr
     {
         private Stopwatch _sw;
 
+        public bool DebugOnly() => false;
+
         public void ExecuteBefore(CallContext context)
         {
             _sw = Stopwatch.StartNew();

@@ -16,5 +16,7 @@ namespace Interceptr.Sample.Layer2
             _sw.Stop();
             Debug.WriteLine($"Method {context.MethodName} has taken {_sw.Elapsed.TotalMilliseconds} milliseconds to execute");
         }
+
+        public bool DebugOnly() => false;
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Interceptr
@@ -68,6 +69,9 @@ namespace Interceptr
 
             var intercepted = GetInterceptedType<Class>(assembly);
 
+#if RELEASE
+            interceptors = interceptors.Where(i => i.DebugOnly() is false).ToArray();
+#endif
             services.AddSingleton(typeof(Interface), provider =>
             {
                 return CreateInstance<Class>(interceptors, provider, intercepted);

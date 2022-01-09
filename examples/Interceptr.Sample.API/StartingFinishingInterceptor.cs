@@ -5,6 +5,8 @@ namespace Interceptr
 {
     public class StartingFinishingInterceptor : IInterceptor
     {
+        public bool DebugOnly() => false;
+
         public void ExecuteBefore(CallContext context)
         {
             Print("Starting");

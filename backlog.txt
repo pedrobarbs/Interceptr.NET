@@ -1,3 +1,4 @@
+- Only when debugging interceptors
 - Testar compatibilidade
 - Testar performance
 - Melhorar Descoberta de registro de interceptors.
