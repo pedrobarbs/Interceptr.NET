@@ -18,7 +18,7 @@ First you need to create your custom interceptors classes. To achieve this you w
 For example:
 
 ```cs
-public class StopwatchInterceptor : IInterceptor
+public class StopwatchInterceptor : IInterceptr
 {
     private Stopwatch _sw;
 
