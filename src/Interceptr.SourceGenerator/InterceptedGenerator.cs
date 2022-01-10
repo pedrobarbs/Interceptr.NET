@@ -56,9 +56,9 @@ namespace Interceptr
 public class {interceptorName} : {interfaceFullName} {{ 
 
     private readonly {className} _service;
-    private readonly Interceptr.IInterceptor[] _interceptors;
+    private readonly Interceptr.IInterceptr[] _interceptors;
 
-    public {interceptorName}({className} service, params Interceptr.IInterceptor[] interceptors) 
+    public {interceptorName}({className} service, params Interceptr.IInterceptr[] interceptors) 
     {{
         _service = service;
         _interceptors = interceptors;

@@ -1,8 +1,10 @@
-﻿namespace Interceptr
+﻿using Interceptr;
+
+namespace Interceptr
 {
-    public interface IInterceptor
+    public interface IInterceptr
     {
-        bool DebugOnly();
+        InterceptrStatus GetStatus();
 
         void ExecuteBefore(CallContext context);
         void ExecuteAfter(CallContext context, object result);

@@ -3,11 +3,11 @@ using Interceptr;
 
 namespace Interceptr
 {
-    public class ChronometerInterceptor : IInterceptor
+    public class ChronometerInterceptor : IInterceptr
     {
         private Stopwatch _sw;
 
-        public bool DebugOnly() => false;
+        public InterceptrStatus GetStatus() => InterceptrStatus.EnabledWhenDebugging;
 
         public void ExecuteBefore(CallContext context)
         {

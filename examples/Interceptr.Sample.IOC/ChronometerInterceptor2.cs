@@ -2,7 +2,7 @@
 
 namespace Interceptr.Sample.Layer2
 {
-    public class ChronometerInterceptor2 : IInterceptor
+    public class ChronometerInterceptor2 : IInterceptr
     {
         private Stopwatch _sw;
 
@@ -17,6 +17,6 @@ namespace Interceptr.Sample.Layer2
             Debug.WriteLine($"Method {context.MethodName} has taken {_sw.Elapsed.TotalMilliseconds} milliseconds to execute");
         }
 
-        public bool DebugOnly() => false;
+        public InterceptrStatus GetStatus() => InterceptrStatus.Enabled;
     }
 }

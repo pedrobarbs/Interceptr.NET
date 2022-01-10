@@ -3,9 +3,9 @@
 
 namespace Interceptr
 {
-    public class StartingFinishingInterceptor : IInterceptor
+    public class StartingFinishingInterceptor : IInterceptr
     {
-        public bool DebugOnly() => false;
+        public InterceptrStatus GetStatus() => InterceptrStatus.Enabled;
 
         public void ExecuteBefore(CallContext context)
         {

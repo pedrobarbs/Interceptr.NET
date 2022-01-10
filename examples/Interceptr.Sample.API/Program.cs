@@ -9,9 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddScopedIntercepted<ISampleService, SampleService>(
-    new Interceptr.ChronometerInterceptor(),
-    new StartingFinishingInterceptor());
+var stack = new InterceptrStack(new ChronometerInterceptor(), new StartingFinishingInterceptor());
+
+builder.Services.AddScopedIntercepted<ISampleService, SampleService>(stack);
 
 builder.Services.AddOtherLayers();
 
