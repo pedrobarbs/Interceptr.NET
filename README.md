@@ -21,7 +21,9 @@ For example:
 public class StopwatchInterceptor : IInterceptr
 {
     private Stopwatch _sw;
-
+    
+    public InterceptrStatus GetStatus() => InterceptrStatus.Enabled;
+    
     public void ExecuteBefore(CallContext context)
     {
         _sw = Stopwatch.StartNew();
