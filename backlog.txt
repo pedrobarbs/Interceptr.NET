@@ -6,6 +6,7 @@
 - Verificar como se comportam parametros opcionais
 - Interceptor async
 - Dar suporte a injeção de dependência dentro do interceptor
+- Documentação 
 
 Feitos
 - Fazer e testar fluxo para transiente e singleton

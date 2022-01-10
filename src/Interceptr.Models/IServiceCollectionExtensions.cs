@@ -185,7 +185,7 @@ namespace Interceptr
 #if RELEASE
             interceptorList.RemoveAll(
                 interceptor => interceptor.GetStatus() is InterceptrStatus.Disabled ||
-                interceptor.GetStatus() is  InterceptrStatus.EnabledWhenDebugging);
+                interceptor.GetStatus() is InterceptrStatus.EnabledWhenDebugging);
 #else
             interceptorList.RemoveAll(interceptor => interceptor.GetStatus() is InterceptrStatus.Disabled);
 #endif

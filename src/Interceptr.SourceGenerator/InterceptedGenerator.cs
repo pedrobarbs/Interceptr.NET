@@ -16,7 +16,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Interceptr
@@ -24,6 +23,8 @@ namespace Interceptr
     [Generator]
     public class InterceptedGenerator : ISourceGenerator
     {
+        private const string InterceptedSuffix = "Intercepted";
+
         public void Initialize(GeneratorInitializationContext context)
         {
             //#if DEBUG
@@ -36,7 +37,26 @@ namespace Interceptr
 
         public void Execute(GeneratorExecutionContext context)
         {
-            // TODO: podem existir metodos com nomes parecidos que podem ser pegos erroneamente
+            var registrations = GetServiceToIntercept(context);
+
+            GenerateInterceptedServices(context, registrations);
+        }
+
+        private static void GenerateInterceptedServices(GeneratorExecutionContext context, IEnumerable<(TypeInfo @interface, TypeInfo @class)> registrations)
+        {
+            foreach (var (@interface, @class) in registrations)
+            {
+                var interceptedName = $"{@class.Type.Name}{InterceptedSuffix}";
+
+                var intercepted = CreateInterceptedService(interceptedName, @interface, @class);
+
+                context.AddSource($"{interceptedName}.cs", intercepted);
+            }
+        }
+
+        // TODO: need to improve because methods with similar names could already exist
+        private static IEnumerable<(TypeInfo @interface, TypeInfo @class)> GetServiceToIntercept(GeneratorExecutionContext context)
+        {
             var registrationMethods = new[]
             {
                 ".AddTransientIntercepted",
@@ -44,25 +64,27 @@ namespace Interceptr
                 ".AddSingletonIntercepted"
             };
 
-            var registrations = GetRegistrations(context, registrationMethods).ToList();
-
-            foreach (var (@interface, @class) in registrations)
-            {
-                var interceptorName = $"{@class.Type.Name}Intercepted";
-                var builtClass = BuildClass(interceptorName, @interface, @class);
-                context.AddSource($"{interceptorName}.cs", builtClass);
-            }
+            return GetInterceptedServices(context, registrationMethods);
         }
 
-        private static string BuildClass(string interceptorName, TypeInfo @interface, TypeInfo @class)
+        private static string CreateInterceptedService(string interceptorName, TypeInfo @interface, TypeInfo @class)
         {
             var interfaceFullName = @interface.Type.GetFullName();
             var className = @class.Type.GetFullName();
 
-            var methods = @interface.Type.GetMembers().OfType<IMethodSymbol>();
+            var methodsInfo = @interface.Type.GetMembers().OfType<IMethodSymbol>();
 
-            var methodsString = BuildMethodsString(methods);
-            var usings = BuildUsings();
+            return WriteInterceptedService(interceptorName, interfaceFullName, className, methodsInfo);
+        }
+
+        private static string WriteInterceptedService(
+            string interceptorName,
+            string interfaceFullName,
+            string className,
+            IEnumerable<IMethodSymbol> methodsInfo)
+        {
+            var interceptedMethods = WriteInterceptedMethods(methodsInfo);
+            var usings = WriteUsings();
 
             return $@"
 {usings}
@@ -78,25 +100,24 @@ public class {interceptorName} : {interfaceFullName} {{
         _interceptors = interceptors;
     }}
 
-    {methodsString}
+    {interceptedMethods}
 
 }}";
         }
 
-        private static string BuildUsings()
+        private static string WriteUsings()
         {
             List<string> namespaces = new List<string>()
             {
                 "Interceptr",
-                "System",                
+                "System",
                 "System.Collections.Generic",
                 "System.IO",
                 "System.Linq",
                 "System.Net.Http",
                 "System.Threading",
                 "System.Threading.Tasks"
-
-        };
+            };
 
             return string.Join("",
                 namespaces
@@ -105,7 +126,7 @@ public class {interceptorName} : {interfaceFullName} {{
                     .Select(name => $"using {name};{Environment.NewLine}"));
         }
 
-        private static string BuildMethodsString(IEnumerable<IMethodSymbol> methods)
+        private static string WriteInterceptedMethods(IEnumerable<IMethodSymbol> methods)
         {
             var methodsStrings = new List<string>();
             foreach (var method in methods)
@@ -257,7 +278,7 @@ $@"{WriteMethodSignature(method)}
             return $"@{p.ToLowerInvariant().Split('.').Last()}{index}";
         }
 
-        private static IEnumerable<(TypeInfo @interface, TypeInfo @class)> GetRegistrations(
+        private static IEnumerable<(TypeInfo @interface, TypeInfo @class)> GetInterceptedServices(
             GeneratorExecutionContext context,
             string[] registrationMethods)
         {
