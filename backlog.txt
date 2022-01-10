@@ -1,4 +1,3 @@
-- Only when debugging interceptors
 - Testar compatibilidade
 - Testar performance
 - Melhorar Descoberta de registro de interceptors.
@@ -11,6 +10,7 @@ Feitos
 - Fazer e testar fluxo para transiente e singleton
 - Testar com namespaces e com parametros de classes customizadas, IEnumerable, etc..
 - Dar suporte a Task async
+- Only when debugging interceptors
 
 
 
