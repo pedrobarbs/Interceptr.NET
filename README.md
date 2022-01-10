@@ -52,4 +52,4 @@ The first interceptor parameter will execute more closely to the intercepted ser
 And thats it, now you're ready to go!
 
 ## Contributing
-This library is an open-source project, you can contribute by bringing new ideas to discussion at github or reporting bugs. Once a change is accepted, it will be up for grab. Fork the repository, apply code changes and then create a pull-request targeting the original repository on branch **main**.
+This library is an open-source project, you can contribute by bringing new ideas to discussion at github or reporting bugs. Once a change is accepted, it will be up for grab. Please read more at [CONTRIBUTING](./CONTRIBUTING.md).
