@@ -18,10 +18,12 @@ First you need to create your custom interceptors classes. To achieve this you w
 For example:
 
 ```cs
-public class StopwatchInterceptor : IInterceptor
+public class StopwatchInterceptor : IInterceptr
 {
     private Stopwatch _sw;
-
+    
+    public InterceptrStatus GetStatus() => InterceptrStatus.Enabled;
+    
     public void ExecuteBefore(CallContext context)
     {
         _sw = Stopwatch.StartNew();
@@ -52,4 +54,4 @@ The first interceptor parameter will execute more closely to the intercepted ser
 And thats it, now you're ready to go!
 
 ## Contributing
-This library is an open-source project, you can contribute by bringing new ideas to discussion at github or reporting bugs. Once a change is accepted, it will be up for grab. Fork the repository, apply code changes and then create a pull-request targeting the original repository on branch **develop**.
+This library is an open-source project, you can contribute by bringing new ideas to discussion at github or reporting bugs. Once a change is accepted, it will be up for grab. Please read more at [CONTRIBUTING](./CONTRIBUTING.md).
